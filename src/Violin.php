@@ -88,12 +88,6 @@ class Violin implements ValidatorContract
 
         foreach ($data as $field => $value) {
             $fieldRules = explode('|', $rules[$field]);
-            
-            // It doesn't make sense to continue and validate the rest of rules 
-			// if the value is required and empty.
-			if(in_array("required", array_map('strtolower', $fieldRules)) && $this->isEmpty($value)){
-				$fieldRules = ["required"];
-			}
 			
             foreach ($fieldRules as $rule) {
                 $this->validateAgainstRule(
