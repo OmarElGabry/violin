@@ -312,10 +312,33 @@ class Violin implements ValidatorContract
             (is_array($ruleToCall) &&
             method_exists($ruleToCall[0], 'canSkip') &&
             $ruleToCall[0]->canSkip()) &&
-            empty($value) &&
+            $this->isEmpty($value) &&
             !is_array($value)
         );
     }
+    
+    /**
+     * Determines if the given value is actually empty,
+     * Values: '0', false, 0, and 0.0 are considered as non-empty values.
+     *
+     * @param  mixed  $value
+     * @return bool
+     */
+	protected function isEmpty($value)
+	{
+		if(is_null($value)) {
+            return true;
+        }
+        else if(is_string($value)){
+            if(trim($value) === '') {
+				return true;
+			}
+        }
+        else if (empty($value) && $value !== '0' && $value !== false && $value !== 0 && $value !== 0.0){
+            return true;
+        }
+        return false;
+	}
 
     /**
      * Clears all previously stored errors.
